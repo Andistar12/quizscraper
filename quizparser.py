@@ -47,5 +47,5 @@ def process_quizjson(json):
 urls = ["https://apis.getmindmap.com/api/story/quizResponse/5170A"]
 
 for entry in urls:
-	json = downloadJSON(entry)
-	process_quizjson(json)
+	gottenJson = downloadJSON(entry)
+	process_quizjson(gottenJson)
