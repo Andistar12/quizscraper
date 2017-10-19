@@ -21,8 +21,7 @@ def process_quizjson(json):
 	for quiz in json["quiz_response"]:
 		quizResponses.append( [quiz["quiz_id"], quiz["response"], quiz["_id"], quiz["date"]] )
 
-	#Sort responses & recode quiz_id
-	quizResponses = sorted(quizResponses, key = lambda x: x[0])
+	#Responses & recode quiz_id
 	for count, quiz in enumerate(quizResponses, 1):
 		quiz[0] = count
 
