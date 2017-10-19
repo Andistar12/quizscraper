@@ -1,15 +1,15 @@
 import json
-import urllib.request
+import urllib
 import csv
 import ssl
 
-ssl._create_default_https_context = ssl._create_unverified_context
+if hasattr(ssl, '_create_unverified_context'):
+        ssl._create_default_https_context = ssl._create_unverified_context
 
 def downloadJSON(link):
 	"""Downloads and parses a JSON from the specified link"""
-	with urllib.request.urlopen(link) as url:
-		data = url.read().decode()
-		return json.loads(data)
+	response = urllib.urlopen(link)
+	return json.loads(response.read())
 
 def process_quizjson(json):
 	"""Processes one quiz JSON"""
@@ -40,7 +40,7 @@ def process_quizjson(json):
 				"date": quiz[3]
 			})
 			
-	print("Saved {0} quizzes to file {1}.csv".format(len(quizResponses), quizID))
+	print "Saved {0} quizzes to file {1}.csv".format(len(quizResponses), quizID)
 
 
 
