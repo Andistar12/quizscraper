@@ -1,5 +1,6 @@
 import json
 import urllib.request
+import csv
 
 def downloadJSON(link):
 	"""Downloads and parses a JSON from the specified link"""
@@ -17,16 +18,25 @@ def process_quizjson(json):
 	for quiz in json["quiz_response"]:
 		quizResponses.append( [quiz["quiz_id"], quiz["response"], quiz["_id"], quiz["date"]] )
 
-	#Sort responses
+	#Sort responses & recode quiz_id
 	quizResponses = sorted(quizResponses, key = lambda x: x[0])
 	for count, quiz in enumerate(quizResponses, 1):
 		quiz[0] = count
 
 	#Save info
-	with open(quizID + ".csv", "w") as file:
+	with open(quizID + ".csv", "w") as ourfile:
+		field_names = ["quiz_id", "response", "id", "date"]
+		writer = csv.DictWriter(ourfile, fieldnames = field_names)
+		writer.writeheader()
+	
 		for quiz in quizResponses:
-			file.write("{0},{1},{2},{3}\n".format(quiz[0], quiz[1], quiz[2], quiz[3]))
-
+			writer.writerow({
+				"quiz_id": quiz[0],
+				"response": quiz[1],
+				"id": quiz[2],
+				"date": quiz[3]
+			})
+			
 	print("Saved {0} quizzes to file {1}.csv".format(len(quizResponses), quizID))
 
 
